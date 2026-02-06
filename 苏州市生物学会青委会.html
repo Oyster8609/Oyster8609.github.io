@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>苏州市生物学会青委会</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+            line-height: 1.7;
+        }
+        a {
+            text-decoration: none;
+            color: #005ea5;
+        }
+        a:hover {
+            color: #003d71;
+        }
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 0.8rem 0;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #005ea5 !important;
+        }
+        .nav-link {
+            color: #333 !important;
+            margin: 0 0.8rem;
+            font-size: 0.95rem;
+        }
+        .nav-link:hover {
+            color: #005ea5 !important;
+        }
+        .banner {
+            background: linear-gradient(rgba(0, 94, 165, 0.8), rgba(0, 94, 165, 0.8)), url(https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/975e25f6c5ec4c4f9a15519c0c7971b9.png~tplv-a9rns2rl98-image.png);
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6rem 0;
+            margin-bottom: 3rem;
+        }
+        .section {
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            color: #005ea5;
+            border-bottom: 2px solid #005ea5;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+/* 重构团队成员卡片样式 */
+.team-member-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: flex-start; /* 顶部对齐，保证名字对齐 */
+    gap: 2rem;
+    min-height: 200px; /* 适配长方形图片高度 */
+}
+.team-member-card .member-avatar {
+    flex-shrink: 0; /* 防止图片被压缩 */
+    width: 140px; /* 宽度从100px增大到140px */
+    text-align: center; /* 无图片时文字居中 */
+}
+/* 核心修改：加宽的纵向长方形图片 */
+.team-member-card img {
+    width: 140px; /* 宽度增大到140px（比原来多40px） */
+    height: 180px; /* 高度保持不变，保证纵向比例 */
+    border-radius: 8px; /* 轻微圆角，非圆形 */
+    object-fit: cover; /* 保证图片不变形 */
+}
+.team-member-card .member-info {
+    flex-grow: 1; /* 让简介部分占满剩余空间 */
+    text-align: left;
+    padding-top: 0; /* 和图片顶部齐平 */
+}
+.team-member-card h5 {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    margin-top: 0; /* 名字顶部无间距，保证对齐 */
+}
+.team-member-card .member-title {
+    color: #666;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+}
+/* 实验室图片展示样式优化 - 一行一张图 */
+/* 新增的图片标题样式 */
+.gallery-title {
+    color: #000;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    /* 核心修改：上下增加外边距，分隔标题与图片 */
+    margin-top: 1rem;    /* 标题上方间距，对应上一张图片底部 */
+    margin-bottom: 1rem; /* 标题下方间距，对应下一张图片顶部 */
+    text-align: center;
+}
+.gallery-img {
+    /* 核心：自适应宽度，最大宽度限制，不撑满屏幕 */
+    width: 85%;
+    max-width: 900px;
+    /* 核心：高度自适应，限制最大高度，保证单屏显示完整 */
+    height: auto;
+    max-height: 60vh;
+    /* 完整显示图片，不拉伸不裁切 */
+    object-fit: contain;
+    /* 移除边框/背景，只保留图片 */
+    border-radius: 0; /* 取消圆角 */
+    box-shadow: none; /* 取消阴影 */
+    transition: transform 0.3s ease;
+    /* 水平居中 */
+    display: block;
+    margin: 0 auto;
+}
+.gallery-img:hover {
+    transform: scale(1.01);
+}
+.gallery-item {
+    margin-bottom: 2.5rem;
+    /* 移除容器的背景/边框 */
+    background: none !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+/* 友情链接样式 */
+.friend-link-item {
+    display: block;
+    padding: 8px 0;
+    color: #005ea5;
+    text-decoration: none;
+}
+.friend-link-item:hover {
+    color: #003d71;
+    text-decoration: underline;
+}
+
+footer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 3rem 0;
+    margin-top: 5rem;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+    .team-member-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    .team-member-card .member-info {
+        text-align: center;
+    }
+    /* 移动端图片适配 */
+    .gallery-img {
+        width: 95%;
+        max-height: 50vh;
+    }
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">苏州市生物学会青委会</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#intro">青委会简介</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#team">团队成员</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#forum">学术论坛</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">青委会风采</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">联系我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="banner text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold">苏州市生物学会青年委员会</h1>
+            <p class="lead mt-3">苏州市生物学会</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <section class="section" id="intro">
+            <h2 class="section-title">青委会简介</h2>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="fs-5">作为苏州市生物学会下属的工作委员会，青委会将聚焦三大核心任务：一是依托学会资源，整合苏州区域生物科研领域的青年力量；二是搭建优质、高效的学术交流平台，促进青年科研人员之间的思想碰撞与经验分享；三是秉持互助共进的理念，推动资源共享，助力青年科研人员协同成长，共同提升苏州区域生物学科研的整体实力与影响力。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="team">
+            <h2 class="section-title">团队成员</h2>
+            <div class="row">
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5rxqP.jpg" alt="代伟伟">
+                        </div>
+                        <div class="member-info">
+                            <h5>代伟伟</h5>
+                            <p class="member-title">主任委员</p>
+                            <p>代伟伟博士现任西交利物大学理学院助理教授、副研究员、苏州市代谢综合征和新药研发重点实验室主任。过去数十年代博士一直从事肝脏营养和代谢研究，目前的主要研究方向为肿瘤代谢与氨基酸/氮代谢。近几年以第一作者和通讯作者在经典SCI杂志发表多篇科研文章；第一发明人发明专利2项; 主持国家自然科学基金面上项目一项（2025-2028）。中国细胞生物学学会、中国生物物理学会、中国生物化学与分子生物学、中国营养学会和苏州市生物学会会员。同时担任苏州市生物学会常务理事, 苏州市生物学会青年工作委员会主任委员和中国生物物理学会代谢组学分会青年委员会委员。</p>
+                             <p>电子邮箱：Weiwei.Dai@xjtlu.edu.cn</p>
+                             <p>联系电话：+86 (0)512 81888764</p>
+                             <p>个人链接：<a href="https://scholar.xjtlu.edu.cn/en/persons/WeiweiDai/" target="_blank">https://scholar.xjtlu.edu.cn/en/persons/WeiweiDai/</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5Dzh4.jpg" alt="张艳岭">
+                        </div>
+                        <div class="member-info">
+                            <h5>张艳岭</h5>
+                            <p class="member-title">副主任委员</p>
+                            <p>张艳岭副教授是苏州大学特聘副教授、硕士生导师。本科毕业于北京大学生命科学学院生物化学系，获美国University of Iowa博士学位。入选江苏省“双创博士”计划和苏州市紧缺人才项目。研究领域为细胞内膜运输分子机制在神经系统疾病和癌症中的作用。主持国家自然科学基金2项，省部级自然科学基金2项。迄今为止已在PNAS, EMBO J, JBC，JCI等国际著名学术杂志发表多篇SCI文章，引用>3000次。参与多项省部级和校级教改项目，获得全国和江苏省微课教学比赛二等奖。Cell Death Discovery杂志编委。</p>
+                             <p>电子邮箱：yanlzhan@suda.edu.cn</p>
+                             <p>联系电话：13862110931</p>
+                             <p>个人链接：<a href="https://web.suda.edu.cn/yanlzhan/" target="_blank">https://web.suda.edu.cn/yanlzhan/</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5sSVf.jpg" alt="滕昕辰">
+                        </div>
+                        <div class="member-info">
+                            <h5>滕昕辰</h5>
+                            <p class="member-title">副主任委员</p>
+                            <p>滕昕辰副教授是复旦大学化学专业学士及硕士，美国约翰·霍普金斯大学医学院生物化学、细胞与分子生物学博士，约翰·霍普金斯大学公共卫生学院微生物与分子免疫系博士后。苏州大学药学院副教授和硕士生导师。入选江苏省“双创博士”、苏州市“紧缺人才”计划。主持2项国家自然科学基金项目和1项江苏省自然科学基金项目。研究方向为肿瘤相关细胞生长信号通路机制研究、GSDM蛋白诱导炎性死亡—焦亡的调控机制、新型抗肿瘤和抗感染药物开发和宇宙辐射诱导的基因组进化</p>
+                             <p>电子邮箱：xcteng@suda.edu.cn</p>
+                             <p>个人链接：<a href="https://icpi.suda.edu.cn/ch/a6/24/c32841a566820/page.htm" target="_blank">https://icpi.suda.edu.cn/ch/a6/24/c32841a566820/page.htm</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5s9IS.jpg" alt="齐鑫">
+                        </div>
+                        <div class="member-info">
+                            <h5>齐鑫</h5>
+                            <p class="member-title">副主任委员</p>
+                            <p>齐鑫，博士，现任苏州科技大学化学与生命科学学院副教授、硕士研究生导师，院长助理。主讲《生物信息学》等多门专业课程，教学成果突出，综合评教优秀。坚持立德树人，注重思想引领与专业教育深度融合，指导多名学生获国家奖学金并考取名校研究生；指导学生荣获全国大学生生命科学竞赛二等奖2项，获批国家级、省级大学生创新创业项目各1项，硕士研究生国家奖学金2项，以及省级优秀本科毕业论文三等奖2项。主持国家自然科学基金面上项目和青年基金项目各1项，以第一作者或通讯作者在SCI期刊发表论文20余篇，获评江苏高校“青蓝工程”优秀青年骨干教师、苏州市教育教学工作表现突出个人和校级“优秀教师”等荣誉称号。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/04/pZIldEt.jpg" alt="吴凌天">
+                        </div>
+                        <div class="member-info">
+                            <h5>吴凌天</h5>
+                            <p class="member-title">副主任委员</p>
+                            <p>吴凌天，博士，教授，江苏常熟人，硕士研究生导师，国家级科技小院首席科学家、中国国际大学生创新大赛评审专家、江苏高校“青蓝工程”优秀青年骨干教师、江苏省“双创计划”科技副总、姑苏领军人才、苏州市青年岗位能手、苏州市优秀教育工作者，功能微生物挖掘与天然产物绿色制造创新团队负责人。主要从事工业微生物菌株选育（生防菌、乳酸菌等）、微生物色素（灵菌红素、谷蓝等）、功能蛋白高密度发酵、微生物多糖构效关系等领域的研究工作；主持国家自然科学基金等项目20余项；发表论文20余篇；授权发明专利12件，转让4件；获中国发明协会2025年度“发明成果奖”二等奖、中国商业联合会服务业科技创新奖三等奖。主讲的《生物工程项目实践创新课程》被评为国家一流本科课程、第二批江苏省一流本科课程和江苏省产教融合型一流课程；获江苏省首届高校教师创新教学大赛一等奖；指导学生获江苏省优秀毕业设计（论文）一等奖1项、二等奖1项、三等奖2项、优秀团队1个，中国国际大学生创新大赛银奖等省级以上荣誉20余项。</p>
+                             <p>电子邮箱：wlt913@cslg.edu.cn</p>
+                             <p>联系电话：0512-52251570</p>
+                             <p>个人链接：<a href="https://swxy.szut.edu.cn/info/1691/22691.htm" target="_blank">https://swxy.szut.edu.cn/info/1691/22691.htm</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/02/pZ471Cn.png" alt="张立峰">
+                        </div>
+                        <div class="member-info">
+                            <h5>张立峰</h5>
+                            <p class="member-title">副主任委员</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5rPj1.jpg" alt="朱珂">
+                        </div>
+                        <div class="member-info">
+                            <h5>朱珂</h5>
+                            <p class="member-title">委员</p>
+                            <p>朱珂，苏州大学基础医学院特聘教授，博士生导师，江苏省特聘教授，海外优青获得者，苏州创新创业领军人才。2013年于南开大学/美国Rush大学医学中心联合培养获博士学位。2013年至2023年于Rush大学医学中心进行科研训练，历任博士后研究员、讲师，2023年至2024年于美国德州大学医学部任职助理教授 (tenure track)。2024年7月起任职苏州大学特聘教授。近年来以第一作者/通讯作者在Sci Transl Med(2023), Nature Metabolism (2023), Journal of Clinical Investigation (2021), Nature Communications (2020)等国际主流期刊发表论文多篇。担任Nature Metabolism, Journal of Clinical Investigation及Journal of Clinical Endocrinology&Metabolism等多个SCI杂志审稿专家。先后主持国家自然科学基金优秀青年基金（海外）、江苏省特聘教授科研基金、苏州大学特聘教授启动资金、美国NIH R01 (因回国退出) 等。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5spa8.jpg" alt="王家昌">
+                        </div>
+                        <div class="member-info">
+                            <h5>王家昌</h5>
+                            <p class="member-title">委员</p>
+                            <p>王家昌，苏州大学，苏州医学院基础医学与生物科学学院，青年特聘教授，课题组长。博士毕业于南京农业大学，师从万建民院士。先后在中国农业科学院作物科学研究所、中国科学院分子植物科学卓越创新中心从事研究工作，2023年8月作为高层次引进人才到苏州大学。近年来，主要从事水稻钙离子信号编码及转导机制的研究，研究成果以第一作者（含共一）发表在Cell Research、Molecular Plant、Current Opinion in Plant Biology、Journal of Experimental Botany等国际高影响力期刊上。相关论文被植物学权威学术期刊Trends in Plant Science专文评述，入选ESI高被引论文及Faculty Opinions推荐阅读论文。先后主持国家自然科学基金青年及面上项目、江苏省农业科技自主创新资金项目等科研项目，获得中国科协青年人才托举工程、中国科学院青年创新促进会等人才项目支持。</p>
+                             <p>电子邮箱：jiachangwang@suda.edu.cn</p>
+                             <p>联系电话：18015457262</p>
+                             <p>个人链接：<a href="https://web.suda.edu.cn/jiachangwang/" target="_blank">https://web.suda.edu.cn/jiachangwang/</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5rOxA.jpg" alt="黄波">
+                        </div>
+                        <div class="member-info">
+                            <h5>黄波</h5>
+                            <p class="member-title">委员</p>
+                            <p>黄波，苏州大学教授、博士生导师。主要从事基于蛋白相互作用的多肽与拟肽类药物开发研究，聚焦多肽药物的长效化与低毒性调控。以多肽与拟肽结构为核心，结合人工智能辅助设计、化学合成与生物功能验证，发展分子结构调控与体内行为精准控制相结合的研究策略，引入非天然氨基酸与拟肽单元，构建多肽/拟肽融合结构，并探索构象受限与可控结构转化在提升体内稳定性与安全性方面的应用。研究方向涵盖离子跨膜转运、蛋白泛素化调控及靶向蛋白降解等领域。以通讯作者或第一作者身份在 Nature Communications、Angewandte Chemie、Journal of Medicinal Chemistry、Acta Pharmaceutica Sinica B、European Journal of Medicinal Chemistry 和 Chemical Communications 等期刊发表多篇论文，并获得一项美国发明专利。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5rCcR.jpg" alt="王秋文">
+                        </div>
+                        <div class="member-info">
+                            <h5>王秋文</h5>
+                            <p class="member-title">委员</p>
+                            <p>王秋文博士，国际创新药学院教授，博士生导师，课题组长。本科毕业于山东师范大学，博士毕业于清华大学，期间受国家公派至哈佛大学医学院联合培养，2025年回国前为美国加州索尔克生物研究所博士后研究员。在国际知名期刊发表13篇SCI论文，引用一千余次。其中以第一作者或共同第一作者在Nature Neuroscience (IF 25.7)、Nature (IF 54.4)、PNAS (IF 10.8)、Cell Reports (IF 7.5)等国际主流期刊发表多篇论文；获得了5项发明专利授权，其中包括4项国际专利，1项中国专利。主要从神经系统疾病、大脑类器官和衰老研究。 </p>
+                             <p>电子邮箱：qwwang@suda.edu.cn</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5rjKI.jpg" alt="林宇鑫">
+                        </div>
+                        <div class="member-info">
+                            <h5>林宇鑫</h5>
+                            <p class="member-title">委员</p>
+                            <p>林宇鑫，理学博士，苏州大学附属第一医院副研究员，学术型硕导，江苏省“双创博士”。苏州大学医学系统生物学专业博士研究生毕业，兼具基础医学、分子生物学、计算机科学与技术、泌尿外科学等学科的学习和科研经历，在多组学生物医学信息学、计算机辅助生物标志物发现、医学人工智能等领域积累了较好的研究经验，围绕前列腺癌等复杂疾病开展“智能计算-实验机制-临床应用”交叉融合研究。主持国家自然科学基金青年项目（C类）、江苏省“双创博士”人才计划、江苏省高等学校自然科学研究面上项目、苏州市科技发展项目、苏大附一院“博习后备人才”项目、苏州大学横向项目各1项；参与国家自然科学基金项目7项、江苏省重点研发计划重点项目和江苏省自然科学基金面上项目各1项。以第一或通讯作者在《Briefings in Bioinformatics》、《Journal of Experimental & Clinical Cancer Research》、《Journal of Translational Medicine》、《RNA Biology》等SCI杂志和《医学信息学杂志》、《中华器官移植杂志》、《中华男科学杂志》等中文期刊发表学术论文30余篇，累计影响因子172.76，中国科学院一、二区20篇；参与编写生物医学信息学英文专著4本，中文专著和教材3本；获批计算机软件著作权2项；荣获苏州市自然科学优秀学术论文二等奖、苏州市医学会医学科技奖三等奖各1项。</p>
+                             <p>电子邮箱：linyuxin@suda.edu.cn</p>
+                             <p>个人链接：<a href="https://fyy.sdfyy.cn/AdminDept/detail/id/124387/code/14.html" target="_blank">https://fyy.sdfyy.cn/AdminDept/detail/id/124387/code/14.html</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5rp9J.jpg" alt="杨鑫">
+                        </div>
+                        <div class="member-info">
+                            <h5>杨鑫</h5>
+                            <p class="member-title">委员</p>
+                            <p>杨鑫博士是苏州大学特聘教授，国家级青年人才（海外）和苏州创新创业领军人才。杨鑫2014年毕业于西北农林科技大学，获学士学位，2019年毕业于北京大学，获得博士学位，2019-2024年在美国纽约哥伦比亚大学进行博士后工作，合作导师是顾伟教授。2024年5月加入苏州大学生物医学研究院（IBMS）任教授、课题组长，兼任苏州大学附属医院双聘教授。主持国家自然科学青年基金和江苏省自然科学青年基金项目。长期从事代谢调控细胞命运与疾病研究，主要聚焦代谢调控细胞死亡决定消化系统疾病发生发展中的作用。以通讯或第一作者在Cell Metabolism（2023，2024），Molecular Cell（2019），Nature Communications（2024），Science Advances（2021），Cancer Research（2018），Trends in Cell Biology（2025），Communications Biology（2024）等期刊发表多篇高质量文章。研究方向：聚焦代谢调控细胞命运核心问题，通过基础与临床紧密合作、多组学分析（基因组筛选、转录组学、蛋白组学、翻译后修饰组学、代谢组学和氧化还原磷脂组学等），深入研究：1）代谢调控细胞死亡在消化系统炎症、肿瘤发展及并发症中的作用机制及潜在干预措施。2）肿瘤遗传学通过代谢重塑调控免疫新机制新靶点。</p>
+                             <p>电子邮箱：xinyang2448@suda.edu.cn</p>
+                             <p>个人链接：<a href="https://ibms.suda.edu.cn/yxsys/main.psp" target="_blank">https://ibms.suda.edu.cn/yxsys/main.psp</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5rvrt.jpg" alt="谭树杰">
+                        </div>
+                        <div class="member-info">
+                            <h5>谭树杰</h5>
+                            <p class="member-title">委员</p>
+                            <p>谭树杰博士的研究聚焦于环境光的非视觉（认知）效应，以及光污染对大脑健康的影响。他以第一作者身份在《美国国家科学院院刊》（PNAS）、《行为成瘾期刊》（Journal of Behavioral Addictions）、《转化精神病学》（Translational Psychiatry）、《神经科学期刊》（Journal of Neuroscience）和《英国皇家学会会刊 B 辑》（Proceedings of the Royal Society B）等学术期刊上发表论文。在昆山杜克大学，他的教学方向包括《行为的生物学基础》《神经科学研究方法》与《计算神经科学》。他拥有英国诺丁汉大学心理学理学学士学位（一级荣誉）、心理研究方法理学硕士学位（优异），以及行为神经科学博士学位。在加入昆山杜克大学前，他于 2011 年至 2023 年间在牛津大学担任博士后神经科学家。目前，他的研究得到昆山双创创新领军人才计划和杜克大学 - 昆山杜克大学合作校长基金的资助。</p>
+                             <p>电子邮箱：shukiteric.tam@dukekunshan.edu.cn</p>
+                             <p>个人链接：<a href="https://scholars.duke.edu/person/shu.tam" target="_blank">
+https://scholars.duke.edu/person/shu.tam</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5r939.jpg" alt="王逊">
+                        </div>
+                        <div class="member-info">
+                            <h5>王逊</h5>
+                            <p class="member-title">委员</p>
+                            <p>王逊，中国医学科学院/北京协和医学院助理教授（准长聘系列），中国医学科学院系统医学研究院/苏州系统医学研究所研究员。
+王逊博士毕业于西安交通大学生命学院，之后加入德克萨斯大学西南医学中心 进行博士后研究，其相关研究结果阐明线粒体代谢调节肝脏和骨骼肌再生的重要机制，发表于Science、Nat. Aging （封面文章）和J. Clin. Invest.（封面文章）等杂志。王逊实验室的目前研究方向是线粒体代谢调节器官再生和修复的机制，以及跨器官的代谢互作网络解析。目前担任中国生物物理学会线粒体生物学分会和氧化还原生物学与医学分会的青年理事。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/04/pZI11Zn.jpg" alt="段春燕">
+                        </div>
+                        <div class="member-info">
+                            <h5>段春燕</h5>
+                            <p class="member-title">委员</p>
+                            <p>段春燕，药学博士，现任苏州大学附属第二医院药学部主管药师。博士毕业于爱尔兰皇家外科医学院（Royal College of Surgeons in Ireland, RCSI），专业为药理学，2020年-2025年。硕士毕业于苏州大学，专业为药理学，2026年-2019年。研究方向聚焦蛋白组学与翻译后修饰调控、药物作用靶点与机制解析，以及肿瘤药理学相关的乳腺癌发病机制与内分泌耐药研究；同时关注生物节律紊乱相关疾病的发生发展。致力于推动多组学与机制研究成果向临床精准用药与转化应用落地。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/04/pZIlwUP.jpg" alt="狄敏">
+                        </div>
+                        <div class="member-info">
+                            <h5>狄敏</h5>
+                            <p class="member-title">委员</p>
+                            <p>狄敏工作单位为苏州市石湖景区管理处（华南虎苏州培育基地）。参加工作至今，主要从事野生动物保护相关工作。参与濒危动物斑鳖的联合繁育，在斑鳖的人工饲养、繁殖和卵的孵化等工作中积累了丰富的经验。参与国家一级保护野生动物扬子鳄人工孵化和育幼，实现了苏州市动物园扬子鳄首次成功繁殖。在野生动物保育、收容救护和科研等方面有一定的经验。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/03/pZ5D1kF.jpg" alt="宋建瑞">
+                        </div>
+                        <div class="member-info">
+                            <h5>宋建瑞</h5>
+                            <p class="member-title">委员、秘书处成员</p>
+                            <p>宋建瑞博士于 2024 年 1 月加入西交利物浦大学药学院，担任助理教授一职。她于 2018 年在密歇根大学安娜堡分校细胞与发育生物学系 Richard Mortensen 博士的指导下获得博士学位。博士后阶段，她在 Daniel Goldstein 博士带领的内科学系开展研究，积累了在衰老、免疫、脂肪组织、心血管疾病（CVDs）及癌症领域的专业经验。她的实验室主要研究衰老在心血管疾病、癌症和肥胖等疾病模型中对免疫及免疫细胞代谢的影响。机制层面，团队研究聚焦于免疫、炎症、衰老、代谢、脂肪组织及自噬。</p>
+                             <p>电子邮箱：Jianrui.Song@xjtlu.edu.cn</p>
+                             <p>联系电话：+86 (0)512 88161358</p>
+                             <p>个人链接：<a href="https://scholar.xjtlu.edu.cn/en/persons/JianruiSong/" target="_blank">
+https://scholar.xjtlu.edu.cn/en/persons/JianruiSong/</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="team-member-card">
+                        <div class="member-avatar">
+                            <img src="https://s41.ax1x.com/2026/02/07/pZoRMWV.jpg" alt="王汇丰">
+                        </div>
+                        <div class="member-info">
+                            <h5>王汇丰</h5>
+                            <p class="member-title">秘书处成员</p>
+                            <p>王汇丰博士现任中国苏州西交利物浦大学化学与材料科学学院助理教授。在加入西交利物浦大学前，她曾于美国西北大学医学院生物医学工程系担任博士后研究员。她于 2014 年获美国阿克伦大学高分子科学硕士学位，2019 年获美国伊利诺伊大学芝加哥分校化学工程博士学位。她的研究经历包括开发两性离子聚合物，以解决植入物相关并发症，如异物反应与细菌感染。目前已发表经同行评审的学术论文 30 篇，其中以第一作者身份在《Advanced Materials》《Advanced Functional Materials》《Advanced Healthcare Materials》等国际期刊发表论文 11 篇。她的研究方向聚焦于生物材料调控细胞行为的机制，并致力于开发新型生物材料以促进组织再生，尤其侧重皮肤、血管与骨骼肌骨骼系统的再生修复。同时，她热衷于教学与人才培养，致力于培育再生工程领域的下一代专业人才，并持续提升自身作为 STEM 专业教育者的能力。</p>
+                             <p>电子邮箱：Huifeng.Wang@xjtlu.edu.cn</p>
+                             <p>联系电话：+86 (0)512 89167151</p>
+                             <p>个人链接：<a href="https://scholar.xjtlu.edu.cn/en/persons/HuifengWang/" target="_blank">
+https://scholar.xjtlu.edu.cn/en/persons/HuifengWang/</a></p>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <!-- ========== 新增学术论坛板块 ========== -->
+        <section class="section" id="forum">
+            <h2 class="section-title">学术论坛</h2>
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- 第一张图片（带标题） -->
+                    <div class="col-12 gallery-item">
+                        <h5 class="gallery-title mb-2">第一期“青委会学术论坛”</h5>
+                        <img src="https://s41.ax1x.com/2026/02/07/pZoRQzT.jpg" alt="第一期“学术论坛”" class="gallery-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 青委会风采板块 ========== -->
+        <section class="section" id="gallery">
+            <h2 class="section-title">生物学会青委会风采</h2>
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- 第一张图片（带标题） -->
+                    <div class="col-12 gallery-item">
+                        <h5 class="gallery-title mb-2">学术论坛讨论会</h5>
+                        <img src="https://s41.ax1x.com/2026/02/03/pZ5sPPg.jpg" alt="学术论坛讨论会" class="gallery-img">
+                    </div>
+                    <!-- 第二张图片 -->
+                    <div class="col-12 gallery-item">
+                        <img src="https://s41.ax1x.com/2026/02/04/pZI13aq.jpg" alt="学术论坛讨论会" class="gallery-img">
+                    </div>
+                    <!-- 第三张图片 -->
+                    <div class="col-12 gallery-item">
+                        <img src="https://s41.ax1x.com/2026/02/04/pZI18I0.jpg" alt="学术论坛讨论会" class="gallery-img">
+                    </div>
+                    <!-- 第四张图片（带标题） -->
+                    <div class="col-12 gallery-item">
+                        <h5 class="gallery-title mb-2">特邀专家学术交流</h5>
+                        <img src="your-image-url-4" alt="学术交流会议" class="gallery-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 联系我们 板块 -->
+        <section class="section" id="contact">
+            <h2 class="section-title">联系我们</h2>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="bg-white p-4 rounded shadow-sm">
+                                <p class="fs-5 mb-3"><i class="bi bi-geo-alt text-primary me-2"></i>地址：中国江苏省苏州市工业园区仁爱路111号 西交利物浦大学SA457</p>
+                                <p class="fs-5 mb-3"><i class="bi bi-phone text-primary me-2"></i>电话：+86 (0)512 81888764</p>
+                                <p class="fs-5 mb-3"><i class="bi bi-envelope text-primary me-2"></i>邮箱：Weiwei.Dai@xjtlu.edu.cn</p>
+                                <p class="fs-5"><i class="bi bi-clock text-primary me-2"></i>办公时间：周一至周五 9:00-17:00</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="bg-light p-4 rounded shadow-sm h-100">
+                                <h4 class="text-primary mb-4"><i class="bi bi-link me-2"></i>友情链接</h4>
+                                <!-- 这里可以添加任意数量的友情链接 -->
+                             <p>苏州市生物学会链接：<a href="http://www.biosuzhou.org/?m996pageno=1" target="_blank">
+http://www.biosuzhou.org/?m996pageno=1</a></p>
+                             <p>西交利物浦大学理学院链接：<a href="https://www.xjtlu.edu.cn/zh/study/departments/school-of-science/" target="_blank">
+https://www.xjtlu.edu.cn/zh/study/departments/school-of-science/</a></p>
+                             <p>西交利物浦大学药学院链接：<a href="https://www.xjtlu.edu.cn/zh/study/departments/academy-of-pharmacy/" target="_blank">
+https://www.xjtlu.edu.cn/zh/study/departments/academy-of-pharmacy/</a></p>
+                                <!-- 你可以继续添加更多链接 -->
+                                <!-- <a href="你的链接地址" class="friend-link-item">链接名称</a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h5>苏州市生物学会青年委员会</h5>
+                    <hr class="my-4 bg-white opacity-50">
+                    <p>© 2026 苏州市生物学会青委会 保留所有权利</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
